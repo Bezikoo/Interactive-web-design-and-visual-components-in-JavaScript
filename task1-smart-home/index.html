@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Панель керування розумним будинком</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1 class="app-title">🏠 Розумний будинок</h1>
+
+      <!-- Dropdown: вибір кімнати -->
+      <div class="dropdown" id="roomDropdown">
+        <button class="dropdown-toggle" id="roomDropdownBtn" aria-haspopup="true" aria-expanded="false">
+          <span id="roomDropdownLabel">Оберіть кімнату</span>
+          <span class="dropdown-arrow">▾</span>
+        </button>
+        <ul class="dropdown-menu" id="roomDropdownMenu" role="menu">
+          <li class="dropdown-item" data-room="living" role="menuitem">Вітальня</li>
+          <li class="dropdown-item" data-room="bedroom" role="menuitem">Спальня</li>
+          <li class="dropdown-item" data-room="kitchen" role="menuitem">Кухня</li>
+          <li class="dropdown-item" data-room="bathroom" role="menuitem">Ванна</li>
+          <li class="dropdown-item" data-room="garage" role="menuitem">Гараж</li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- Tabs: підсистеми -->
+    <nav class="tabs" role="tablist" id="subsystemTabs">
+      <button class="tab-btn is-active" data-tab="lighting" role="tab" aria-selected="true">💡 Освітлення</button>
+      <button class="tab-btn" data-tab="climate" role="tab" aria-selected="false">🌡 Клімат</button>
+      <button class="tab-btn" data-tab="security" role="tab" aria-selected="false">🔒 Безпека</button>
+      <button class="tab-btn" data-tab="energy" role="tab" aria-selected="false">⚡ Енергія</button>
+    </nav>
+
+    <main class="tab-panels">
+      <!-- Панель освітлення -->
+      <section class="tab-panel is-active" id="tab-lighting" role="tabpanel">
+        <div class="sensor-bar">
+          <span class="sensor-label">Яскравість</span>
+          <span class="sensor-value tooltip-trigger" data-tooltip="Поточна яскравість у люксах" tabindex="0">420 лк</span>
+          <span class="sensor-label">Температура кольору</span>
+          <span class="sensor-value tooltip-trigger" data-tooltip="Тепле світло = 2700K, Холодне = 6500K" tabindex="0">4000 K</span>
+        </div>
+        <!-- Accordion: пристрої освітлення -->
+        <div class="accordion" id="accordionLighting">
+          <div class="accordion-item" data-device="main-light">
+            <button class="accordion-header">
+              <span>Основне світло</span>
+              <span class="device-status status-on">Увімк.</span>
+              <span class="accordion-icon">▾</span>
+            </button>
+            <div class="accordion-body">
+              <div class="device-controls">
+                <label>Яскравість: <input type="range" class="slider" min="0" max="100" value="70" data-ctrl="brightness" /></label>
+                <label>Колір: <input type="color" value="#ffe4b5" data-ctrl="color" /></label>
+                <button class="btn btn-danger" data-action="settings" data-device="main-light">Налаштування</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item" data-device="night-light">
+            <button class="accordion-header">
+              <span>Нічник</span>
+              <span class="device-status status-off">Вимк.</span>
+              <span class="accordion-icon">▾</span>
+            </button>
+            <div class="accordion-body">
+              <div class="device-controls">
+                <label>Яскравість: <input type="range" class="slider" min="0" max="100" value="20" data-ctrl="brightness" /></label>
+                <button class="btn btn-danger" data-action="settings" data-device="night-light">Налаштування</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item is-disabled" data-device="outdoor-light">
+            <button class="accordion-header" disabled>
+              <span>Вулична лампа</span>
+              <span class="device-status status-disabled">Недост.</span>
+              <span class="accordion-icon">▾</span>
+            </button>
+            <div class="accordion-body">
+              <p class="error-msg">Пристрій недоступний. Перевірте підключення.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Панель клімату -->
+      <section class="tab-panel" id="tab-climate" role="tabpanel">
+        <div class="sensor-bar">
+          <span class="sensor-label">Температура</span>
+          <span class="sensor-value tooltip-trigger" data-tooltip="Виміряно термостатом Honeywell T6" tabindex="0">22.4 °C</span>
+          <span class="sensor-label">Вологість</span>
+          <span class="sensor-value tooltip-trigger" data-tooltip="Рекомендований діапазон: 40–60%" tabindex="0">48 %</span>
+          <span class="sensor-label">CO₂</span>
+          <span class="sensor-value tooltip-trigger has-error" data-tooltip="Рівень CO₂ підвищений! Провітріть кімнату." tabindex="0">1200 ppm ⚠</span>
+        </div>
+        <div class="accordion" id="accordionClimate">
+          <div class="accordion-item" data-device="thermostat">
+            <button class="accordion-header">
+              <span>Термостат</span>
+              <span class="device-status status-on">Увімк.</span>
+              <span class="accordion-icon">▾</span>
+            </button>
+            <div class="accordion-body">
+              <div class="device-controls">
+                <label>Ціль: <input type="number" min="15" max="30" value="22" class="num-input" /></label>
+                <label>Режим:
+                  <select class="mode-select">
+                    <option>Опалення</option>
+                    <option>Охолодження</option>
+                    <option>Авто</option>
+                  </select>
+                </label>
+                <button class="btn btn-danger" data-action="settings" data-device="thermostat">Налаштування</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item" data-device="ventilation">
+            <button class="accordion-header">
+              <span>Вентиляція</span>
+              <span class="device-status status-on">Увімк.</span>
+              <span class="accordion-icon">▾</span>
+            </button>
+            <div class="accordion-body">
+              <div class="device-controls">
+                <label>Швидкість: <input type="range" min="0" max="3" value="2" class="slider" /></label>
+                <button class="btn btn-danger" data-action="settings" data-device="ventilation">Налаштування</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Панель безпеки -->
+      <section class="tab-panel" id="tab-security" role="tabpanel">
+        <div class="sensor-bar">
+          <span class="sensor-label">Стан охорони</span>
+          <span class="sensor-value tooltip-trigger" data-tooltip="Всі зони активні, вторгнень не виявлено" tabindex="0">Охороняється 🟢</span>
+          <span class="sensor-label">Рух (24 год)</span>
+          <span class="sensor-value tooltip-trigger" data-tooltip="Датчик руху PIR у коридорі" tabindex="0">12 подій</span>
+        </div>
+        <div class="accordion" id="accordionSecurity">
+          <div class="accordion-item" data-device="front-door">
+            <button class="accordion-header">
+              <span>Вхідні двері</span>
+              <span class="device-status status-on">Зачинено</span>
+              <span class="accordion-icon">▾</span>
+            </button>
+            <div class="accordion-body">
+              <div class="device-controls">
+                <button class="btn btn-primary" data-action="settings" data-device="front-door">Налаштування замка</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item" data-device="camera">
+            <button class="accordion-header">
+              <span>Камера #1</span>
+              <span class="device-status status-on">Запис</span>
+              <span class="accordion-icon">▾</span>
+            </button>
+            <div class="accordion-body">
+              <div class="device-controls">
+                <label>Якість:
+                  <select class="mode-select">
+                    <option>HD 720p</option>
+                    <option>Full HD 1080p</option>
+                    <option>4K</option>
+                  </select>
+                </label>
+                <button class="btn btn-danger" data-action="settings" data-device="camera">Налаштування</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Панель енергії -->
+      <section class="tab-panel" id="tab-energy" role="tabpanel">
+        <div class="sensor-bar">
+          <span class="sensor-label">Споживання</span>
+          <span class="sensor-value tooltip-trigger" data-tooltip="Середнє за останні 24 години" tabindex="0">3.2 кВт·год</span>
+          <span class="sensor-label">Сонячні панелі</span>
+          <span class="sensor-value tooltip-trigger" data-tooltip="Вироблено сьогодні від сонячних панелей" tabindex="0">1.8 кВт·год</span>
+        </div>
+        <div class="accordion" id="accordionEnergy">
+          <div class="accordion-item" data-device="solar">
+            <button class="accordion-header">
+              <span>Сонячні панелі</span>
+              <span class="device-status status-on">Активно</span>
+              <span class="accordion-icon">▾</span>
+            </button>
+            <div class="accordion-body">
+              <div class="device-controls">
+                <button class="btn btn-danger" data-action="settings" data-device="solar">Налаштування</button>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item" data-device="battery">
+            <button class="accordion-header">
+              <span>Акумулятор</span>
+              <span class="device-status status-on">Заряджається</span>
+              <span class="accordion-icon">▾</span>
+            </button>
+            <div class="accordion-body">
+              <div class="device-controls">
+                <p>Заряд: <strong>74%</strong></p>
+                <button class="btn btn-danger" data-action="settings" data-device="battery">Налаштування</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Статус-рядок -->
+    <footer class="status-bar">
+      <span id="statusMessage" class="status-message"></span>
+    </footer>
+  </div>
+
+  <!-- Модальне вікно: налаштування пристрою -->
+  <div class="modal-overlay" id="settingsModal" aria-modal="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-window">
+      <button class="modal-close" id="modalCloseBtn" aria-label="Закрити">✕</button>
+      <h2 class="modal-title" id="modalTitle">Налаштування пристрою</h2>
+      <div class="modal-body" id="modalBody">
+        <div class="form-group">
+          <label>Назва пристрою:</label>
+          <input type="text" id="deviceNameInput" class="text-input" placeholder="Введіть назву..." />
+        </div>
+        <div class="form-group">
+          <label>Розклад (час увімкнення):</label>
+          <input type="time" id="deviceTimeOn" class="text-input" value="07:00" />
+        </div>
+        <div class="form-group">
+          <label>Розклад (час вимкнення):</label>
+          <input type="time" id="deviceTimeOff" class="text-input" value="23:00" />
+        </div>
+        <div class="form-group">
+          <label>Пріоритет:</label>
+          <select id="devicePriority" class="mode-select">
+            <option value="low">Низький</option>
+            <option value="normal" selected>Нормальний</option>
+            <option value="high">Високий</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="modalCancelBtn">Скасувати</button>
+        <button class="btn btn-primary" id="modalSaveBtn">Зберегти</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tooltip елемент -->
+  <div class="tooltip-box" id="tooltipBox" role="tooltip"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

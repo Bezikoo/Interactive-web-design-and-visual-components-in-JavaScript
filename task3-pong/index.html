@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pong — Міні-гра</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1>🏓 Pong</h1>
+      <div class="score-panel">
+        <div class="score-block">
+          <span class="score-label">Гравець</span>
+          <span class="score-value" id="scorePlayer">0</span>
+        </div>
+        <div class="score-divider">:</div>
+        <div class="score-block">
+          <span class="score-label">Комп'ютер</span>
+          <span class="score-value" id="scoreAI">0</span>
+        </div>
+      </div>
+      <div class="header-btns">
+        <button class="btn btn-primary" id="startBtn">▶ Старт</button>
+        <button class="btn btn-secondary" id="pauseBtn" disabled>⏸ Пауза</button>
+        <button class="btn btn-secondary" id="resetBtn">↺ Скинути</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <!-- Canvas -->
+      <div class="canvas-wrapper">
+        <canvas id="gameCanvas" width="720" height="450"></canvas>
+        <div class="canvas-overlay" id="canvasOverlay">
+          <div class="overlay-content" id="overlayContent">
+            <p class="overlay-title" id="overlayTitle">Pong</p>
+            <p class="overlay-sub" id="overlaySub">Натисніть «Старт» або пробіл для початку</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Бічна панель -->
+      <aside class="side-panel">
+        <div class="panel-section">
+          <h3 class="panel-title">Стан гри</h3>
+          <div class="info-row"><span class="info-key">Статус:</span><span class="info-val" id="gameStatusEl">Очікування</span></div>
+          <div class="info-row"><span class="info-key">Раунд:</span><span class="info-val" id="roundEl">—</span></div>
+          <div class="info-row"><span class="info-key">Швидк. м'яча:</span><span class="info-val" id="ballSpeedEl">—</span></div>
+        </div>
+
+        <div class="panel-section">
+          <h3 class="panel-title">Налаштування</h3>
+          <div class="setting-row">
+            <label>Складність AI:</label>
+            <div class="seg-ctrl">
+              <button class="seg-btn is-active" data-diff="easy">Легко</button>
+              <button class="seg-btn" data-diff="medium">Середньо</button>
+              <button class="seg-btn" data-diff="hard">Важко</button>
+            </div>
+          </div>
+          <div class="setting-row">
+            <label>Керування:</label>
+            <div class="seg-ctrl">
+              <button class="seg-btn is-active" data-ctrl="mouse">Миша</button>
+              <button class="seg-btn" data-ctrl="keyboard">Клавіші</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3 class="panel-title">Підказки</h3>
+          <p class="hint">🖱 Рухайте мишею вгору/вниз над полем</p>
+          <p class="hint">⌨ W / S або ↑ / ↓ — керування клавіатурою</p>
+          <p class="hint">Space — старт / пауза</p>
+        </div>
+
+        <div class="msg-box" id="msgBox"></div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

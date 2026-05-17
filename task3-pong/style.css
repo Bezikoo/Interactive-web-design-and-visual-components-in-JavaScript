@@ -1,0 +1,135 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #080c10;
+  --surface: #0f1923;
+  --surface2: #182433;
+  --border: #1e3045;
+  --accent: #00e5ff;
+  --accent2: #ff6b6b;
+  --text: #c8dff0;
+  --text-dim: #5a7d99;
+  --success: #4ade80;
+  --warn: #fbbf24;
+  --radius: 8px;
+  --tr: 0.2s ease;
+}
+
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+.app { max-width: 1060px; margin: 0 auto; padding: 1rem 1rem 2rem; }
+
+/* ── Header ── */
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--border);
+}
+.app-header h1 { font-size: 1.4rem; color: var(--accent); letter-spacing: .04em; }
+
+/* ── Score ── */
+.score-panel { display: flex; align-items: center; gap: .75rem; }
+.score-block { display: flex; flex-direction: column; align-items: center; }
+.score-label { font-size: .7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .06em; }
+.score-value { font-size: 2rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1; }
+.score-divider { font-size: 1.5rem; color: var(--text-dim); }
+
+.header-btns { display: flex; gap: .4rem; }
+
+/* ── Buttons ── */
+.btn { padding: .4rem .85rem; border-radius: 6px; border: none; cursor: pointer; font-size: .83rem; font-weight: 600; transition: opacity var(--tr), transform var(--tr); }
+.btn:hover:not(:disabled) { opacity: .85; transform: translateY(-1px); }
+.btn:active:not(:disabled) { transform: translateY(0); }
+.btn:disabled { opacity: .35; cursor: not-allowed; }
+.btn-primary { background: var(--accent); color: #000; }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+
+/* ── Workspace ── */
+.workspace { display: grid; grid-template-columns: 1fr 240px; gap: 1rem; }
+@media (max-width: 700px) { .workspace { grid-template-columns: 1fr; } }
+
+/* ── Canvas ── */
+.canvas-wrapper { position: relative; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: #000; }
+#gameCanvas { display: block; width: 100%; height: auto; }
+
+.canvas-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .3s;
+}
+.canvas-overlay.is-hidden { opacity: 0; pointer-events: none; }
+.overlay-content { text-align: center; }
+.overlay-title { font-size: 2.5rem; font-weight: 700; color: var(--accent); margin-bottom: .5rem; text-shadow: 0 0 20px var(--accent); }
+.overlay-sub { font-size: .9rem; color: var(--text-dim); }
+
+/* ── Side panel ── */
+.side-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .9rem;
+  display: flex;
+  flex-direction: column;
+  gap: .85rem;
+  font-size: .82rem;
+}
+
+.panel-section { display: flex; flex-direction: column; gap: .4rem; }
+.panel-title {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: .25rem;
+  margin-bottom: .1rem;
+}
+
+.info-row { display: flex; justify-content: space-between; align-items: center; }
+.info-key { color: var(--text-dim); }
+.info-val { color: var(--accent); font-weight: 600; }
+
+/* ── Settings ── */
+.setting-row { display: flex; flex-direction: column; gap: .3rem; }
+.setting-row label { color: var(--text-dim); }
+.seg-ctrl { display: flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.seg-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  padding: .28rem .3rem;
+  cursor: pointer;
+  font-size: .75rem;
+  transition: background var(--tr), color var(--tr);
+}
+.seg-btn:not(:last-child) { border-right: 1px solid var(--border); }
+.seg-btn:hover { background: var(--surface2); color: var(--text); }
+.seg-btn.is-active { background: rgba(0,229,255,.15); color: var(--accent); font-weight: 600; }
+
+/* ── Hints ── */
+.hint { color: var(--text-dim); font-size: .75rem; line-height: 1.5; }
+
+/* ── Message box ── */
+.msg-box {
+  background: var(--surface2);
+  border-radius: 6px;
+  padding: .5rem .6rem;
+  font-size: .78rem;
+  color: var(--success);
+  min-height: 2rem;
+  transition: opacity .3s;
+}
+.msg-box.is-error { color: var(--accent2); }
+.msg-box.is-warn  { color: var(--warn); }
+.msg-box.is-hidden { opacity: 0; }
